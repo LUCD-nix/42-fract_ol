@@ -12,7 +12,7 @@
 
 #include "fract_ol.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	put_pixel_to_img(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -32,7 +32,7 @@ int	main(void)
 	// not only gives the address but also fills our struct with relevant info !
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+	mandelbrot(&img, 1920, 1080);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 }

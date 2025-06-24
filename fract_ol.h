@@ -12,7 +12,12 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include "minilibx-linux/mlx.h"
+# include <stdlib.h>
 # include <math.h>
+
+# define MAX_ITER 1000
+# define BAILOUT 1<<16
+
 
 typedef struct	s_data {
 	void	*img;
@@ -26,6 +31,9 @@ typedef struct	s_complex {
 	double	re;
 	double	im;
 }	t_complex;
+
+void	put_pixel_to_img(t_data *data, int x, int y, int colour);
+void	mandelbrot(t_data *img, int max_x, int max_y);
 
 /* complex algebra operations */
 inline double	c_mag(t_complex a);
