@@ -11,8 +11,7 @@ LIBFTDIR = 42-libft/
 MLIBXDIR = minilibx-linux/
 
 LIBFT := ${LIBFTDIR}libft.a
-MLIBX := ${MLIBXDIR}libmlx.a
-MLIBX_OS := ${MLIBXDIR}libmlx_Linux.a
+MLIBX := ${MLIBXDIR}libmlx.a ${MLIBXDIR}libmlx_Linux.a
 
 CFLAGS = -Wall -Wextra -Werror -ggdb
 
@@ -20,13 +19,18 @@ LFLAGS := -I${LIBFTDIR} -I${MLIBXDIR} -lXext -lX11 -lm -lz
 
 all: ${NAME}
 
-${NAME}:  ${OBJS}
-	cd ${MLIBXDIR} && ./configure
-	cd ${LIBFTDIR} && make bonus
+${NAME}:  ${OBJS} ${LIBFT} ${MLIBX}
 	${CC} ${OBJS} ${LIBFT} ${MLIBX} ${MLIBX_OS} ${LFLAGS} -o ${NAME}
+
 
 %.o: %.c
 	${CC} -c ${CFLAGS} $< -o $@
+
+${MLIBX}:
+	cd ${MLIBXDIR} && ./configure
+
+${LIBFT}:
+	cd ${LIBFTDIR} && make bonus
 
 clean:
 	cd ${MLIBXDIR} && ./configure clean
