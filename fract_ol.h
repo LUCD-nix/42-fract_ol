@@ -16,7 +16,7 @@
 # include <math.h>
 
 # define MAX_ITER 1000
-# define BAILOUT 1<<8
+# define BAILOUT 128
 
 
 typedef struct	s_data {
