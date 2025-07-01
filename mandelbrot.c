@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lucorrei <lucorrei@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 15:38:09 by lucorrei          #+#    #+#             */
+/*   Updated: 2025/07/01 15:38:18 by lucorrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "fract_ol.h"
 
 /*
@@ -47,7 +58,7 @@ double	mandelbrot(double x0, double y0)
 ** main difference here is multiplying by 255 to get back an int
 ** and the self-explanatory bit shifting that follows
 */
-void	colour_and_put(t_data *img, double iter, int px, int py)
+void	colour_and_put(t_img *img, double iter, int px, int py)
 {
 	int	red;
 	int	green;
@@ -66,26 +77,25 @@ void	colour_and_put(t_data *img, double iter, int px, int py)
 	put_pixel_to_img(img, px, py, colour);
 }
 
-double	get_x_coord(int px, t_data *img)
+double	get_x_coord(int px, t_img *img)
 {
 	double res;
 
 	(void) img;
-	res = (double)px / 1920.0 * 3.5 - 2.5;
+	res = (double)px / img->x_max * 3.5 - 2.5;
 	return (res);
 }
 
 // TODO : use img to properly scale the points, also rotation is wrong
-double	get_y_coord(int py, t_data *img)
+double	get_y_coord(int py, t_img *img)
 {
 	double res;
 
-	(void) img;
-	res = (double)py / 1080.0 * 2.0 - 1;
+	res = (double)py / img->y_max * 2.0 - 1;
 	return (res);
 }
 
-void	apply_fractal(t_data *img, int max_x, int max_y, double (*fract)(double, double))
+void	apply_fractal(t_img *img, int max_x, int max_y, double (*fract)(double, double))
 {
 	int		px;
 	int		py;

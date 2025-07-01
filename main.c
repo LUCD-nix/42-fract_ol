@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "fract_ol.h"
 
-void	put_pixel_to_img(t_data *data, int x, int y, int color)
+void	put_pixel_to_img(t_img *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -19,18 +19,34 @@ void	put_pixel_to_img(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+// int	redraw_on_zoom(int button, int x, int y, void *param)
+// {
+// 	t_img *img;
+//
+// 	img = param;
+// 	if (button == MOUSE_SCROLL_UP)
+// 	{
+//
+// 	}
+// }
+//
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
+	t_data	mlx_data;
+	t_img	image;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	apply_fractal(&img, 1920, 1080, &mandelbrot);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	image.x_max = 1920;
+	image.y_max = 1080;
+	mlx_data.mlx = mlx_init();
+	mlx_data.window = mlx_new_window(mlx_data.mlx,
+								 image.x_max, image.y_max,
+								 "Hello world!");
+	image.img = mlx_new_image(mlx_data.mlx, 1920, 1080);
+	image.addr = mlx_get_data_addr(image.img, &image.bits_per_pixel, &image.line_length,
+								&image.endian);
+	mlx_data.image_data = &image;
+	apply_fractal(&image, image.x_max, image.y_max, &mandelbrot);
+	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image.img, 0, 0);
+	// mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
+	mlx_loop(mlx_data.mlx);
 }

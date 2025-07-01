@@ -1,6 +1,5 @@
 NAME = fract_ol
 
-# TODO: change
 CFILES = main.c mandelbrot.c
 
 OBJS := $(CFILES:.c=.o)
