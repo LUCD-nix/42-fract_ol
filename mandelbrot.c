@@ -1,5 +1,20 @@
 #include "fract_ol.h"
 
+/*
+** Compute the smooth colour gradient outside of mandelbrot
+** The first two if statements skip computation inside of the
+** two main bulbs of the set.
+** see : https://iquilezles.org/articles/mset1bulb
+** and   https://iquilezles.org/articles/mset2bulb
+**
+** To determine the colour we use the following fact:
+** When the bailout is big we have f(zn) is (to the first order)
+** between B and B ** p which allows us to colour smoothly
+** by substracting the distance to B and normalizing
+** We can use log2 here by pure chance since our first order is p = 2
+** and it diverges for mag > 2; Without this the formula would be:
+** res = i - log(log(length(z))/log(B))/log(2.0)
+*/
 double	mandelbrot(double x0, double y0)
 {
 	double	x;
@@ -12,11 +27,9 @@ double	mandelbrot(double x0, double y0)
 	y = 0;
 	i = -1;
 	z2 = x0 * x0 + y0 * y0;
-	// skip computation inside M1 - https://iquilezles.org/articles/mset1bulb
-	if (256.0 *z2 * z2 - 96.0 * z2 + 32.0 * x0 - 3.0 < 0.0 )
+	if (256.0 * z2 * z2 - 96.0 * z2 + 32.0 * x0 - 3.0 < 0.0 )
 		return (0.0);
-	// skip computation inside M2 - https://iquilezles.org/articles/mset2bulb
-	if (16.0 * (z2 + 2.0* x0 + 1.0) - 1.0 < 0.0 )
+	if (16.0 * (z2 + 2.0 * x0 + 1.0) - 1.0 < 0.0 )
 		return (0.0);
 	while (x * x + y * y <= BAILOUT && ++i < MAX_ITER)
 	{
@@ -24,21 +37,15 @@ double	mandelbrot(double x0, double y0)
 		y = (x + x) * y + y0;
 		x = xtemp;
 	}
-	if (i > MAX_ITER)
+	if (i == MAX_ITER)
 		return (0);
-
-	// When the bailout is big we have f(zn) is (to the first order)
-	// between B and B ** p which allows us to colour smoothly
-	// by substracting the distance to B and normalizing
-	// we can use log2 here by pure chance since our first order is 2
-	// and it diverges for mag > 2
-	// res = i - log(log(length(z))/log(B))/log(2.0);
 	return (i - log2(log2(x * x + y * y)) + 4.0);
 }
 
 /* 
 ** Colouring function based on https://www.shadertoy.com/view/4df3Rn
 ** main difference here is multiplying by 255 to get back an int
+** and the self-explanatory bit shifting that follows
 */
 void	colour_and_put(t_data *img, double iter, int px, int py)
 {

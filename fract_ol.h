@@ -27,20 +27,9 @@ typedef struct	s_data {
 	int		endian;
 }	t_data;
 
-typedef struct	s_complex {
-	double	re;
-	double	im;
-}	t_complex;
-
 void	put_pixel_to_img(t_data *data, int x, int y, int colour);
 void	apply_fractal(t_data *img, int max_x, int max_y, double (*fract)(double, double));
 
 double	mandelbrot(double x0, double y0);
-
-/* complex algebra operations */
-inline double	c_mag(t_complex a);
-inline t_complex	c_mult(t_complex a, t_complex b);
-inline t_complex	c_sub(t_complex a, t_complex b);
-inline t_complex	c_add(t_complex a, t_complex b);
 
 #endif // FRACTOL_H
