@@ -24,6 +24,9 @@
 typedef struct	s_img {
 	void	*img;
 	char	*addr;
+	double	scale;
+	double	center_x;
+	double	center_y;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;

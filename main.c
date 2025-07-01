@@ -29,7 +29,7 @@ void	put_pixel_to_img(t_img *data, int x, int y, int color)
 //
 // 	}
 // }
-//
+
 int	main(void)
 {
 	t_data	mlx_data;
@@ -44,8 +44,14 @@ int	main(void)
 	image.img = mlx_new_image(mlx_data.mlx, 1920, 1080);
 	image.addr = mlx_get_data_addr(image.img, &image.bits_per_pixel, &image.line_length,
 								&image.endian);
+	image.center_x = -0.75;
+	image.center_y = 0.0;
+	image.scale = 1.0;
 	mlx_data.image_data = &image;
+
+	// TODO : changed image, less params needed
 	apply_fractal(&image, image.x_max, image.y_max, &mandelbrot);
+
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image.img, 0, 0);
 	// mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
 	mlx_loop(mlx_data.mlx);

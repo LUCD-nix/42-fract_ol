@@ -79,20 +79,14 @@ void	colour_and_put(t_img *img, double iter, int px, int py)
 
 double	get_x_coord(int px, t_img *img)
 {
-	double res;
-
-	(void) img;
-	res = (double)px / img->x_max * 3.5 - 2.5;
-	return (res);
+	return (((double)px / img->x_max * 3.5
+			+ img->center_x - 1.75) * img->scale);
 }
 
-// TODO : use img to properly scale the points, also rotation is wrong
 double	get_y_coord(int py, t_img *img)
 {
-	double res;
-
-	res = (double)py / img->y_max * 2.0 - 1;
-	return (res);
+	return (((double)py / img->y_max * 2
+			+ img->center_y - 1) * img->scale);
 }
 
 void	apply_fractal(t_img *img, int max_x, int max_y, double (*fract)(double, double))
