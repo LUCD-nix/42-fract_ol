@@ -38,10 +38,14 @@ typedef struct s_data {
 	void	*mlx;
 	void	*window;
 	t_img	*image_data;
+	t_img	*other_image;
 }	t_data;
 
 void	put_pixel_to_img(t_img *data, int x, int y, int colour);
 void	apply_fractal(t_img *img, int max_x, int max_y, double (*fract)(double, double));
+
+double	get_x_coord(int px, t_img *img);
+double	get_y_coord(int py, t_img *img);
 
 double	mandelbrot(double x0, double y0);
 
