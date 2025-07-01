@@ -9,7 +9,6 @@
 /*   Updated: 2025/06/24 17:37:19 by lucorrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "fract_ol.h"
 
 void	put_pixel_to_img(t_data *data, int x, int y, int color)
@@ -31,7 +30,7 @@ int	main(void)
 	img.img = mlx_new_image(mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	mandelbrot(&img, 1920, 1080);
+	apply_fractal(&img, 1920, 1080, &mandelbrot);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 }

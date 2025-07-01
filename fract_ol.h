@@ -16,7 +16,7 @@
 # include <math.h>
 
 # define MAX_ITER 1000
-# define BAILOUT 128
+# define BAILOUT 512
 
 
 typedef struct	s_data {
@@ -33,7 +33,9 @@ typedef struct	s_complex {
 }	t_complex;
 
 void	put_pixel_to_img(t_data *data, int x, int y, int colour);
-void	mandelbrot(t_data *img, int max_x, int max_y);
+void	apply_fractal(t_data *img, int max_x, int max_y, double (*fract)(double, double));
+
+double	mandelbrot(double x0, double y0);
 
 /* complex algebra operations */
 inline double	c_mag(t_complex a);
