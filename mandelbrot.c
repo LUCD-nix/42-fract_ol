@@ -80,13 +80,13 @@ void	colour_and_put(t_img *img, double iter, int px, int py)
 double	get_x_coord(int px, t_img *img)
 {
 	return (((double)px / img->x_max * 3.5
-			+ img->center_x - 1.75) * img->scale);
+			 - 1.75) * img->scale + img->center_x);
 }
 
 double	get_y_coord(int py, t_img *img)
 {
 	return (((double)py / img->y_max * 2
-			+ img->center_y - 1) * img->scale);
+			- 1) * img->scale + img->center_y);
 }
 
 void	apply_fractal(t_img *img, int max_x, int max_y, double (*fract)(double, double))
