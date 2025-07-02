@@ -22,11 +22,11 @@ void	put_pixel_to_img(t_img *data, int x, int y, int color)
 
 void	init_image(t_img *image, t_data *mlx_data)
 {
-	image->x_max = 1920;
-	image->y_max = 1080;
+	image->x_max = 854;
+	image->y_max = 480;
 	image->img = mlx_new_image(mlx_data->mlx, image->x_max, image->y_max);
-	image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel, &image->line_length,
-		  					&image->endian);
+	image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel,
+					 &image->line_length, &image->endian);
 }
 
 void	populate_coords(t_img *img, double xc, double yc, double scale)
@@ -34,41 +34,6 @@ void	populate_coords(t_img *img, double xc, double yc, double scale)
 	img->scale = scale;
 	img->center_x = xc;
 	img->center_y = yc;
-}
-
-int	redraw_on_zoom(int button, int x, int y, void *param)
-{
-	t_data	*mlx;
-	t_img	*temp;
-
-	mlx = param;
-	if (button == MOUSE_SCROLL_UP)
-	{
-		populate_coords(mlx->other_image,
-			get_x_coord(x, mlx->image_data),
-			get_y_coord(y, mlx->image_data),
-			mlx->image_data->scale / 1.1);
-		apply_fractal(mlx->other_image, mlx->other_image->x_max,
-			mlx->other_image->y_max, &mandelbrot);
-		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->other_image->img, 0, 0);
-		temp = mlx->image_data;
-		mlx->image_data = mlx->other_image;
-		mlx->other_image = temp;
-	}
-	if (button == MOUSE_SCROLL_DOWN)
-	{
-		populate_coords(mlx->other_image,
-			get_x_coord(x, mlx->image_data),
-			get_y_coord(y, mlx->image_data),
-			mlx->image_data->scale * 1.1);
-		apply_fractal(mlx->other_image, mlx->other_image->x_max,
-			mlx->other_image->y_max, &mandelbrot);
-		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->other_image->img, 0, 0);
-		temp = mlx->image_data;
-		mlx->image_data = mlx->other_image;
-		mlx->other_image = temp;
-	}
-	return (0);
 }
 
 int	main(void)
@@ -89,5 +54,7 @@ int	main(void)
 	apply_fractal(&image1, image1.x_max, image1.y_max, &mandelbrot);
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image1.img, 0, 0);
 	mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
+	mlx_key_hook(mlx_data.window, &escape_to_exit, &mlx_data);
+	mlx_hook(mlx_data.window, 17, STRUCTURE_NOTIFY_MASK, &free_and_quit, &mlx_data);
 	mlx_loop(mlx_data.mlx);
 }

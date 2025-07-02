@@ -1,6 +1,6 @@
 NAME = fract_ol
 
-CFILES = main.c mandelbrot.c
+CFILES = main.c mandelbrot.c hooks.c
 
 OBJS := $(CFILES:.c=.o)
 
@@ -12,14 +12,14 @@ MLIBXDIR = minilibx-linux/
 LIBFT := ${LIBFTDIR}libft.a
 MLIBX := ${MLIBXDIR}libmlx.a ${MLIBXDIR}libmlx_Linux.a
 
-CFLAGS = -Wall -Wextra -Werror -ggdb
+CFLAGS = -Wall -Wextra -Werror -O3
 
 LFLAGS := -I${LIBFTDIR} -I${MLIBXDIR} -lXext -lX11 -lm -lz
 
 all: ${NAME}
 
 ${NAME}:  ${OBJS} ${LIBFT} ${MLIBX}
-	${CC} ${OBJS} ${LIBFT} ${MLIBX} ${MLIBX_OS} ${LFLAGS} -o ${NAME}
+	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${MLIBX} ${MLIBX_OS} ${LFLAGS} -o ${NAME}
 
 
 %.o: %.c
