@@ -61,6 +61,7 @@ int	free_and_quit(t_data *data)
 	mlx_destroy_image(mlx, other_image->img);
 	mlx_destroy_window(mlx, data->window);
 	mlx_destroy_display(mlx);
+	free(mlx);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
