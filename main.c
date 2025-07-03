@@ -50,8 +50,9 @@ int	main(void)
 								 "Hello world!");
 	mlx_data.image_data = &image1;
 	mlx_data.other_image = &image2;
+	mlx_data.params = &(t_params){0, 0, 0, 0};
 	populate_coords(&image1, -0.75, 0, 1.0);
-	apply_fractal(&image1, image1.x_max, image1.y_max, &mandelbrot);
+	apply_fractal(&image1, &mandelbrot, mlx_data.params);
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image1.img, 0, 0);
 	mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
 	mlx_key_hook(mlx_data.window, &escape_to_exit, &mlx_data);

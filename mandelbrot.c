@@ -26,7 +26,7 @@
 ** and it diverges for mag > 2; Without this the formula would be:
 ** res = i - log(log(length(z))/log(B))/log(2.0)
 */
-double	mandelbrot(double x0, double y0)
+double	mandelbrot(t_params *p)
 {
 	double	x;
 	double	y;
@@ -37,15 +37,15 @@ double	mandelbrot(double x0, double y0)
 	x = 0;
 	y = 0;
 	i = -1;
-	z2 = x0 * x0 + y0 * y0;
-	if (256.0 * z2 * z2 - 96.0 * z2 + 32.0 * x0 - 3.0 < 0.0 )
+	z2 = p->x0 * p->x0 + p->y0 * p->y0;
+	if (256.0 * z2 * z2 - 96.0 * z2 + 32.0 * p->x0 - 3.0 < 0.0 )
 		return (0.0);
-	if (16.0 * (z2 + 2.0 * x0 + 1.0) - 1.0 < 0.0 )
+	if (16.0 * (z2 + 2.0 * p->x0 + 1.0) - 1.0 < 0.0 )
 		return (0.0);
-	while (x * x + y * y <= BAILOUT && ++i < MAX_ITER)
+	while (x * x + y * y <= BAILOUT2 && ++i < MAX_ITER)
 	{
-		xtemp = x * x - y * y + x0;
-		y = (x + x) * y + y0;
+		xtemp = x * x - y * y + p->x0;
+		y = (x + x) * y + p->y0;
 		x = xtemp;
 	}
 	if (i == MAX_ITER)
@@ -89,23 +89,21 @@ double	get_y_coord(int py, t_img *img)
 			- 1) * img->scale + img->center_y);
 }
 
-void	apply_fractal(t_img *img, int max_x, int max_y, double (*fract)(double, double))
+void	apply_fractal(t_img *img, double (*fract)(t_params *p), t_params *p)
 {
 	int		px;
 	int		py;
 	double	iter;
-	double	x0;
-	double	y0;
 
 	py = 0;
-	while (py < max_y)
+	while (py < img->y_max)
 	{
 		px = 0;
-		y0 = get_y_coord(py, img);
-		while (px < max_x)
+		p->y0 = get_y_coord(py, img);
+		while (px < img->x_max)
 		{
-			x0 = get_x_coord(px, img);
-			iter = fract(x0, y0);
+			p->x0 = get_x_coord(px, img);
+			iter = fract(p);
 			colour_and_put(img, iter, px, py);
 			px++;
 		}

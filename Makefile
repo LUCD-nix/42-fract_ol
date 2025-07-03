@@ -1,6 +1,6 @@
 NAME = fract_ol
 
-CFILES = main.c mandelbrot.c hooks.c
+CFILES = main.c mandelbrot.c hooks.c julia.c
 
 OBJS := $(CFILES:.c=.o)
 
