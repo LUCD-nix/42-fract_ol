@@ -12,6 +12,7 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include "minilibx-linux/mlx.h"
+# include "42-libft/libft.h"
 # include <stdlib.h>
 # include <math.h>
 
@@ -22,12 +23,14 @@
 # define MOUSE_SCROLL_DOWN 5
 # define ESCAPE 0xff1b
 # define STRUCTURE_NOTIFY_MASK 1L << 17
+# define USAGE "Usage: ./fract_ol [mandelbrot/julia] (if julia:[power] [c])\n"
 
 typedef struct s_params {
 	double	x0;
 	double	y0;
 	double	c;
 	double	power;
+	double	(*frac)(struct s_params *args);
 }	t_params;
 
 typedef struct	s_img {
@@ -41,7 +44,6 @@ typedef struct	s_img {
 	int		endian;
 	int		x_max;
 	int		y_max;
-	double	(*frac)(t_params *args);
 }	t_img;
 
 typedef struct s_data {
