@@ -23,6 +23,13 @@
 # define ESCAPE 0xff1b
 # define STRUCTURE_NOTIFY_MASK 1L << 17
 
+typedef struct s_params {
+	double	x0;
+	double	y0;
+	double	c;
+	double	power;
+}	t_params;
+
 typedef struct	s_img {
 	void	*img;
 	char	*addr;
@@ -34,14 +41,8 @@ typedef struct	s_img {
 	int		endian;
 	int		x_max;
 	int		y_max;
+	double	(*frac)(t_params *args);
 }	t_img;
-
-typedef struct s_params {
-	double	x0;
-	double	y0;
-	double	c;
-	double	power;
-} t_params;
 
 typedef struct s_data {
 	void		*mlx;
@@ -52,7 +53,7 @@ typedef struct s_data {
 }	t_data;
 
 void	put_pixel_to_img(t_img *data, int x, int y, int colour);
-void	apply_fractal(t_img *img, double (*fract)(t_params *p), t_params *params);
+void	apply_fractal(t_img *img, t_params *p);
 void	populate_coords(t_img *img, double xc, double yc, double scale);
 
 double	get_x_coord(int px, t_img *img);
@@ -61,7 +62,7 @@ double	get_y_coord(int py, t_img *img);
 double	mandelbrot(t_params *p);
 double	julia(t_params *c);
 
-int	redraw_on_zoom(int button, int x, int y, void *ptr);
+int		redraw_on_zoom(int button, int x, int y, void *ptr);
 int		escape_to_exit(int keycode, void *param);
 int		free_and_quit(t_data *data);
 

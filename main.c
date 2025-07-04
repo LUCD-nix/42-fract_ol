@@ -22,8 +22,8 @@ void	put_pixel_to_img(t_img *data, int x, int y, int color)
 
 void	init_image(t_img *image, t_data *mlx_data)
 {
-	image->x_max = 854;
-	image->y_max = 480;
+	image->x_max = 1920;
+	image->y_max = 1080;
 	image->img = mlx_new_image(mlx_data->mlx, image->x_max, image->y_max);
 	image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel,
 					 &image->line_length, &image->endian);

@@ -89,12 +89,14 @@ double	get_y_coord(int py, t_img *img)
 			- 1) * img->scale + img->center_y);
 }
 
-void	apply_fractal(t_img *img, double (*fract)(t_params *p), t_params *p)
+void	apply_fractal(t_img *img, t_params *p)
 {
 	int		px;
 	int		py;
+	double (*fract)(t_params *p);
 	double	iter;
 
+	fract = img->frac;
 	py = 0;
 	while (py < img->y_max)
 	{
