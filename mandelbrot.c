@@ -96,7 +96,7 @@ void	apply_fractal(t_img *img, t_params *p)
 	double (*fract)(t_params *p);
 	double	iter;
 
-	fract = img->frac;
+	fract = p->frac;
 	py = 0;
 	while (py < img->y_max)
 	{

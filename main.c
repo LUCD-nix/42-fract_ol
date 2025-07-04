@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "fract_ol.h"
 #include "minilibx-linux/mlx.h"
+#include <stdlib.h>
 
 void	put_pixel_to_img(t_img *data, int x, int y, int color)
 {
@@ -36,12 +37,42 @@ void	populate_coords(t_img *img, double xc, double yc, double scale)
 	img->center_y = yc;
 }
 
-int	main(void)
+t_params	*parse_args(int argc, char **argv, t_params *to_fill)
 {
-	t_data	mlx_data;
-	t_img	image1;
-	t_img	image2;
+	if (argc == 1)
+	{
+		ft_printf(USAGE);
+		exit(EXIT_FAILURE);
+	}
+	if (!ft_strcmp(argv[1], "mandelbrot"))
+		to_fill->frac = &mandelbrot;
+	else if (!ft_strcmp(argv[1], "julia"))
+	{
+		if (argc != 4)
+		{
+			ft_printf(USAGE);
+			exit(EXIT_FAILURE);
+		}
+		to_fill->power = ft_atod(argv[2]);
+		to_fill->c = ft_atod(argv[3]);
+		to_fill->frac = &julia;
+	}
+	else
+	{
+		ft_printf(USAGE);
+		exit(EXIT_FAILURE);
+	}
+	return (to_fill);
+}
 
+int	main(int argc, char **argv)
+{
+	t_data		mlx_data;
+	t_img		image1;
+	t_img		image2;
+	t_params	params;
+
+	mlx_data.params = parse_args(argc, argv, &params);
 	mlx_data.mlx = mlx_init();
 	init_image(&image1, &mlx_data);
 	init_image(&image2, &mlx_data);
@@ -50,9 +81,8 @@ int	main(void)
 								 "Hello world!");
 	mlx_data.image_data = &image1;
 	mlx_data.other_image = &image2;
-	mlx_data.params = &(t_params){0, 0, -0.55, 1.7};
 	populate_coords(&image1, -0.75, 0, 1.0);
-	apply_fractal(&image1, &mandelbrot, mlx_data.params);
+	apply_fractal(&image1, mlx_data.params);
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image1.img, 0, 0);
 	mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
 	mlx_key_hook(mlx_data.window, &escape_to_exit, &mlx_data);

@@ -17,32 +17,23 @@ int	redraw_on_zoom(int button, int x, int y, void *ptr)
 {
 	t_data	*mlx;
 	t_img	*temp;
+	double	scale;
 
 	mlx = ptr;
+	scale = 1;
 	if (button == MOUSE_SCROLL_UP)
-	{
-		populate_coords(mlx->other_image,
-			get_x_coord(x, mlx->image_data),
-			get_y_coord(y, mlx->image_data),
-			mlx->image_data->scale / 1.1);
-		apply_fractal(mlx->other_image, &mandelbrot, mlx->params);
-		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->other_image->img, 0, 0);
-		temp = mlx->image_data;
-		mlx->image_data = mlx->other_image;
-		mlx->other_image = temp;
-	}
-	if (button == MOUSE_SCROLL_DOWN)
-	{
-		populate_coords(mlx->other_image,
-			get_x_coord(x, mlx->image_data),
-			get_y_coord(y, mlx->image_data),
-			mlx->image_data->scale * 1.1);
-		apply_fractal(mlx->other_image, &mandelbrot, mlx->params);
-		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->other_image->img, 0, 0);
-		temp = mlx->image_data;
-		mlx->image_data = mlx->other_image;
-		mlx->other_image = temp;
-	}
+		scale *= 1.2;
+	else if (button == MOUSE_SCROLL_DOWN)
+		scale /= 1.2;
+	populate_coords(mlx->other_image,
+		get_x_coord(x, mlx->image_data),
+		get_y_coord(y, mlx->image_data),
+		mlx->image_data->scale / scale);
+	apply_fractal(mlx->other_image, mlx->params);
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->other_image->img, 0, 0);
+	temp = mlx->image_data;
+	mlx->image_data = mlx->other_image;
+	mlx->other_image = temp;
 	return (0);
 }
 
