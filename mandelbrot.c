@@ -38,9 +38,9 @@ double	mandelbrot(t_params *p)
 	y = 0;
 	i = -1;
 	z2 = p->x0 * p->x0 + p->y0 * p->y0;
-	if (256.0 * z2 * z2 - 96.0 * z2 + 32.0 * p->x0 - 3.0 < 0.0 )
+	if (256.0 * z2 * z2 - 96.0 * z2 + 32.0 * p->x0 - 3.0 < 0.0)
 		return (0.0);
-	if (16.0 * (z2 + 2.0 * p->x0 + 1.0) - 1.0 < 0.0 )
+	if (16.0 * (z2 + 2.0 * p->x0 + 1.0) - 1.0 < 0.0)
 		return (0.0);
 	while (x * x + y * y <= BAILOUT2 && ++i < MAX_ITER)
 	{
@@ -51,64 +51,4 @@ double	mandelbrot(t_params *p)
 	if (i == MAX_ITER)
 		return (0);
 	return (i - log2(log2(x * x + y * y)) + 4.0);
-}
-
-/* 
-** Colouring function based on https://www.shadertoy.com/view/4df3Rn
-** main difference here is multiplying by 255 to get back an int
-** and the self-explanatory bit shifting that follows
-*/
-void	colour_and_put(t_img *img, double iter, int px, int py)
-{
-	int	red;
-	int	green;
-	int	blue;
-	int	colour;
-
-	if (iter < 0.5)
-		colour = 0x000000;
-	else
-	{
-		red = (0.5 + 0.5 * cos(3.0 + iter * 0.15)) * 255;
-		green = (0.5 + 0.5 * cos(3.0 + iter * 0.15 + 0.6)) * 255;
-		blue = (0.5 + 0.5 * cos(3.0 + iter * 0.15 + 1.0)) * 255;
-		colour = (red << 16) + (green << 8) + blue;
-	}
-	put_pixel_to_img(img, px, py, colour);
-}
-
-double	get_x_coord(int px, t_img *img)
-{
-	return (((double)px / img->x_max * 3.5
-			 - 1.75) * img->scale + img->center_x);
-}
-
-double	get_y_coord(int py, t_img *img)
-{
-	return (((double)py / img->y_max * 2
-			- 1) * img->scale + img->center_y);
-}
-
-void	apply_fractal(t_img *img, t_params *p)
-{
-	int		px;
-	int		py;
-	double (*fract)(t_params *p);
-	double	iter;
-
-	fract = p->frac;
-	py = 0;
-	while (py < img->y_max)
-	{
-		px = 0;
-		p->y0 = get_y_coord(py, img);
-		while (px < img->x_max)
-		{
-			p->x0 = get_x_coord(px, img);
-			iter = fract(p);
-			colour_and_put(img, iter, px, py);
-			px++;
-		}
-		py++;
-	}
 }

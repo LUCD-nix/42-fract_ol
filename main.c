@@ -18,7 +18,7 @@ void	put_pixel_to_img(t_img *data, int x, int y, int color)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 void	init_image(t_img *image, t_data *mlx_data)
@@ -27,7 +27,7 @@ void	init_image(t_img *image, t_data *mlx_data)
 	image->y_max = 1080;
 	image->img = mlx_new_image(mlx_data->mlx, image->x_max, image->y_max);
 	image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel,
-					 &image->line_length, &image->endian);
+			&image->line_length, &image->endian);
 }
 
 void	populate_coords(t_img *img, double xc, double yc, double scale)
@@ -77,8 +77,8 @@ int	main(int argc, char **argv)
 	init_image(&image1, &mlx_data);
 	init_image(&image2, &mlx_data);
 	mlx_data.window = mlx_new_window(mlx_data.mlx,
-								 image1.x_max, image1.y_max,
-								 "Hello world!");
+			image1.x_max, image1.y_max,
+			"Hello world!");
 	mlx_data.image_data = &image1;
 	mlx_data.other_image = &image2;
 	populate_coords(&image1, -0.75, 0, 1.0);
@@ -86,6 +86,7 @@ int	main(int argc, char **argv)
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image1.img, 0, 0);
 	mlx_mouse_hook(mlx_data.window, &redraw_on_zoom, &mlx_data);
 	mlx_key_hook(mlx_data.window, &escape_to_exit, &mlx_data);
-	mlx_hook(mlx_data.window, 17, STRUCTURE_NOTIFY_MASK, &free_and_quit, &mlx_data);
+	mlx_hook(mlx_data.window, 17, STRUCTURE_NOTIFY_MASK,
+		&free_and_quit, &mlx_data);
 	mlx_loop(mlx_data.mlx);
 }

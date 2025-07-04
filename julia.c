@@ -14,22 +14,18 @@
 double	julia(t_params *p)
 {
 	double	r;
-	double	r2;
 	double	theta;
 	double	x;
-	double y;
+	double	y;
 	int		i;
-
 
 	i = -1;
 	x = p->x0;
 	y = p->y0;
 	r = hypot(x, y);
-	r2 = x * x + y * y;
 	theta = atan2(y, x);
-	while (r2 <= BAILOUT2 && ++i < MAX_ITER)
+	while (r * r <= BAILOUT2 && ++i < MAX_ITER)
 	{
-		r2 = x * x + y * y;
 		r = hypot(x, y);
 		theta = atan2(y, x);
 		x = pow(r, p->power) * cos(p->power * theta) + p->c;
@@ -37,5 +33,5 @@ double	julia(t_params *p)
 	}
 	if (i == MAX_ITER)
 		return (0);
-	return (i - log(log(x * x + y * y)/log(BAILOUT))/log(p->power));
+	return (i - log(log(x * x + y * y) / log(BAILOUT)) / log(p->power));
 }
