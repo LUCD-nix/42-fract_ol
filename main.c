@@ -50,7 +50,7 @@ int	main(void)
 								 "Hello world!");
 	mlx_data.image_data = &image1;
 	mlx_data.other_image = &image2;
-	mlx_data.params = &(t_params){0, 0, 0, 0};
+	mlx_data.params = &(t_params){0, 0, -0.55, 1.7};
 	populate_coords(&image1, -0.75, 0, 1.0);
 	apply_fractal(&image1, &mandelbrot, mlx_data.params);
 	mlx_put_image_to_window(mlx_data.mlx, mlx_data.window, image1.img, 0, 0);

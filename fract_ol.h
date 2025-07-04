@@ -37,10 +37,10 @@ typedef struct	s_img {
 }	t_img;
 
 typedef struct s_params {
-	double x0;
-	double y0;
-	int	c;
-	int	power;
+	double	x0;
+	double	y0;
+	double	c;
+	double	power;
 } t_params;
 
 typedef struct s_data {

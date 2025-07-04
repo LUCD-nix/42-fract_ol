@@ -27,15 +27,15 @@ double	julia(t_params *p)
 	r = hypot(x, y);
 	r2 = x * x + y * y;
 	theta = atan2(y, x);
-	theta = remainder(p->power * theta, M_2_PI);
 	while (r2 <= BAILOUT2 && ++i < MAX_ITER)
 	{
 		r2 = x * x + y * y;
 		r = hypot(x, y);
-		x = pow(r, p->power) * cos(theta) + p->c;
-		y = pow(r, p->power) * sin(theta) + p->c;
+		theta = atan2(y, x);
+		x = pow(r, p->power) * cos(p->power * theta) + p->c;
+		y = pow(r, p->power) * sin(p->power * theta) + p->c;
 	}
 	if (i == MAX_ITER)
 		return (0);
-	return (i - log(log(x * x + y * y)/log(BAILOUT))/log(2.0));
+	return (i - log(log(x * x + y * y)/log(BAILOUT))/log(p->power));
 }
