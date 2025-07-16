@@ -1,6 +1,6 @@
 NAME = fract_ol
 
-CFILES = main.c mandelbrot.c hooks.c julia.c drawing_functions.c
+CFILES = main.c mandelbrot.c hooks.c julia.c drawing_functions.c parser.c
 
 OBJS := $(CFILES:.c=.o)
 
@@ -22,7 +22,7 @@ ${NAME}:  ${OBJS} ${LIBFT} ${MLIBX}
 	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${MLIBX} ${MLIBX_OS} ${LFLAGS} -o ${NAME}
 
 
-%.o: %.c
+%.o: %.c fract_ol.h
 	${CC} -c ${CFLAGS} $< -o $@
 
 ${MLIBX}:
