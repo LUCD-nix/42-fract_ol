@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fract_ol.h"
-
 double	atod_wrapper(char *str)
 {
 	int	i;
@@ -35,6 +34,26 @@ double	atod_wrapper(char *str)
 	return (ft_atod(str));
 }
 
+void	parse_julia(int argc, char **argv, t_params *to_fill)
+{
+	to_fill->frac = &julia;
+	if (argc == 2)
+	{
+		to_fill->power = 2.0;
+		to_fill->c_re = -0.835;
+		to_fill->c_im = -0.321;
+		return ;
+	}
+	else if (argc != 5)
+	{
+		ft_printf(USAGE);
+		exit(EXIT_FAILURE);
+	}
+	to_fill->power = atod_wrapper(argv[2]);
+	to_fill->c_re = atod_wrapper(argv[3]);
+	to_fill->c_im = atod_wrapper(argv[4]);
+}
+
 t_params	*parse_args(int argc, char **argv, t_params *to_fill)
 {
 	if (argc == 1)
@@ -46,14 +65,7 @@ t_params	*parse_args(int argc, char **argv, t_params *to_fill)
 		to_fill->frac = &mandelbrot;
 	else if (!ft_strcmp(argv[1], "julia"))
 	{
-		if (argc != 4)
-		{
-			ft_printf(USAGE);
-			exit(EXIT_FAILURE);
-		}
-		to_fill->power = atod_wrapper(argv[2]);
-		to_fill->c = atod_wrapper(argv[3]);
-		to_fill->frac = &julia;
+		parse_julia(argc, argv, to_fill);
 	}
 	else
 	{

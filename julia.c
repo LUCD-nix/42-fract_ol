@@ -28,10 +28,10 @@ double	julia(t_params *p)
 	{
 		r = hypot(x, y);
 		theta = atan2(y, x);
-		x = pow(r, p->power) * cos(p->power * theta) + p->c;
-		y = pow(r, p->power) * sin(p->power * theta) + p->c;
+		x = pow(r, p->power) * cos(p->power * theta) + p->c_re;
+		y = pow(r, p->power) * sin(p->power * theta) + p->c_im;
 	}
 	if (i == MAX_ITER)
 		return (0);
-	return (i - log(log(x * x + y * y) / log(BAILOUT)) / log(p->power));
+	return (i + 1 - log(log(x * x + y * y) / log(BAILOUT)) / log(p->power));
 }
