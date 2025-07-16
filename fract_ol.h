@@ -17,15 +17,15 @@
 # include <math.h>
 
 # define MAX_ITER 1000
-# define BAILOUT 512
-# define BAILOUT2 262144
+# define BAILOUT 32
+# define BAILOUT2 1024
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
 # define ESCAPE 0xff1b
 # define STRUCTURE_NOTIFY_MASK 1L << 17
 # define USAGE "Usage: ./fract_ol [mandelbrot/julia] (if julia:[power] [c])\n"
-# define X_MAX 480
-# define Y_MAX 360
+# define X_MAX 854
+# define Y_MAX 480
 
 typedef struct s_params {
 	double	x0;
