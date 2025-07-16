@@ -57,8 +57,6 @@ void	populate_coords(t_img *img, double xc, double yc, double scale)
 	img->center_y = yc;
 }
 
-// TODO: make julia set somehow faster, careful of floating point rounding
-// TODO: better argument parsing (ie non numeric chars)
 int	main(int argc, char **argv)
 {
 	t_data		mlx_data;
