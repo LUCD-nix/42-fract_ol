@@ -24,6 +24,8 @@
 # define ESCAPE 0xff1b
 # define STRUCTURE_NOTIFY_MASK 1L << 17
 # define USAGE "Usage: ./fract_ol [mandelbrot/julia] (if julia:[power] [c])\n"
+# define X_MAX 1920
+# define Y_MAX 1080
 
 typedef struct s_params {
 	double	x0;
@@ -42,8 +44,6 @@ typedef struct	s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		x_max;
-	int		y_max;
 }	t_img;
 
 typedef struct s_data {

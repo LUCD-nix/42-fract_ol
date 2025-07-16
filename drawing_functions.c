@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 #include "fract_ol.h"
 
+void	put_pixel_to_img(t_img *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
 /* 
 ** Colouring function based on https://www.shadertoy.com/view/4df3Rn
 ** main difference here is multiplying by 255 to get back an int
@@ -37,13 +45,13 @@ void	colour_and_put(t_img *img, double iter, int px, int py)
 
 double	get_x_coord(int px, t_img *img)
 {
-	return (((double)px / img->x_max * 3.5
+	return (((double)px / X_MAX * 3.5
 			- 1.75) * img->scale + img->center_x);
 }
 
 double	get_y_coord(int py, t_img *img)
 {
-	return (((double)py / img->y_max * 2
+	return (((double)py / Y_MAX * 2
 			- 1) * img->scale + img->center_y);
 }
 
@@ -56,11 +64,11 @@ void	apply_fractal(t_img *img, t_params *p)
 
 	fract = p->frac;
 	py = 0;
-	while (py < img->y_max)
+	while (py < Y_MAX)
 	{
 		px = 0;
 		p->y0 = get_y_coord(py, img);
-		while (px < img->x_max)
+		while (px < X_MAX)
 		{
 			p->x0 = get_x_coord(px, img);
 			iter = fract(p);
