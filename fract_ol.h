@@ -24,8 +24,8 @@
 # define ESCAPE 0xff1b
 # define STRUCTURE_NOTIFY_MASK 1L << 17
 # define USAGE "Usage: ./fract_ol [mandelbrot/julia] (if julia:[power] [c])\n"
-# define X_MAX 1920
-# define Y_MAX 1080
+# define X_MAX 480
+# define Y_MAX 360
 
 typedef struct s_params {
 	double	x0;
@@ -64,6 +64,7 @@ double	get_y_coord(int py, t_img *img);
 double	mandelbrot(t_params *p);
 double	julia(t_params *c);
 
+t_params	*parse_args(int argc, char **argv, t_params *to_fill);
 int		redraw_on_zoom(int button, int x, int y, void *ptr);
 int		escape_to_exit(int keycode, void *param);
 int		free_and_quit(t_data *data);

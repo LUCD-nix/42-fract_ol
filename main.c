@@ -57,34 +57,6 @@ void	populate_coords(t_img *img, double xc, double yc, double scale)
 	img->center_y = yc;
 }
 
-t_params	*parse_args(int argc, char **argv, t_params *to_fill)
-{
-	if (argc == 1)
-	{
-		ft_printf(USAGE);
-		exit(EXIT_FAILURE);
-	}
-	if (!ft_strcmp(argv[1], "mandelbrot"))
-		to_fill->frac = &mandelbrot;
-	else if (!ft_strcmp(argv[1], "julia"))
-	{
-		if (argc != 4)
-		{
-			ft_printf(USAGE);
-			exit(EXIT_FAILURE);
-		}
-		to_fill->power = ft_atod(argv[2]);
-		to_fill->c = ft_atod(argv[3]);
-		to_fill->frac = &julia;
-	}
-	else
-	{
-		ft_printf(USAGE);
-		exit(EXIT_FAILURE);
-	}
-	return (to_fill);
-}
-
 // TODO: make julia set somehow faster, careful of floating point rounding
 // TODO: better argument parsing (ie non numeric chars)
 int	main(int argc, char **argv)
