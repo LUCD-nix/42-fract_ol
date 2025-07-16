@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fract_ol.h"
-#include "minilibx-linux/mlx.h"
-#include <stdlib.h>
 
 void	start_mlx(t_data *mlx_data)
 {
@@ -87,6 +85,8 @@ t_params	*parse_args(int argc, char **argv, t_params *to_fill)
 	return (to_fill);
 }
 
+// TODO: make julia set somehow faster, careful of floating point rounding
+// TODO: better argument parsing (ie non numeric chars)
 int	main(int argc, char **argv)
 {
 	t_data		mlx_data;
@@ -95,8 +95,6 @@ int	main(int argc, char **argv)
 	t_params	params;
 
 	mlx_data.params = parse_args(argc, argv, &params);
-	// TODO: make julia set somehow faster, careful of floating point rounding
-	// TODO: better argument parsing (ie non numeric chars)
 	start_mlx(&mlx_data);
 	init_images(&image1, &image2, &mlx_data);
 	mlx_data.image_data = &image1;

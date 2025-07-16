@@ -26,7 +26,7 @@ int	redraw_on_zoom(int button, int x, int y, void *ptr)
 	else if (button == MOUSE_SCROLL_DOWN)
 		scale /= 1.2;
 	if (button == MOUSE_SCROLL_UP
-	|| button == MOUSE_SCROLL_DOWN)
+		|| button == MOUSE_SCROLL_DOWN)
 	{
 		populate_coords(mlx->other_image,
 			get_x_coord(x, mlx->image_data),
@@ -34,7 +34,7 @@ int	redraw_on_zoom(int button, int x, int y, void *ptr)
 			mlx->image_data->scale / scale);
 		apply_fractal(mlx->other_image, mlx->params);
 		mlx_put_image_to_window(mlx->mlx, mlx->window,
-						  mlx->other_image->img, 0, 0);
+			mlx->other_image->img, 0, 0);
 		temp = mlx->image_data;
 		mlx->image_data = mlx->other_image;
 		mlx->other_image = temp;
