@@ -86,13 +86,13 @@ int	move_around_arrows(int keycode, void *param)
 	x = data->image_data->center_x;
 	y = data->image_data->center_y;
 	if (keycode == LEFT)
-		x -= 0.2 / data->image_data->scale;
+		x -= 0.2 * data->image_data->scale;
 	if (keycode == RIGHT)
-		x += 0.2 / data->image_data->scale;
+		x += 0.2 * data->image_data->scale;
 	if (keycode == DOWN)
-		y += 0.2 / data->image_data->scale;
+		y += 0.2 * data->image_data->scale;
 	if (keycode == UP)
-		y -= 0.2 / data->image_data->scale;
+		y -= 0.2 * data->image_data->scale;
 	populate_coords(data->other_image, x, y, data->image_data->scale);
 	apply_fractal(data->other_image, data->params);
 	mlx_put_image_to_window(data->mlx, data->window,
