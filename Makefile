@@ -12,7 +12,7 @@ MLIBXDIR = minilibx-linux/
 LIBFT := ${LIBFTDIR}libft.a
 MLIBX := ${MLIBXDIR}libmlx.a ${MLIBXDIR}libmlx_Linux.a
 
-CFLAGS = -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror -ggdb
 
 LFLAGS := -I${LIBFTDIR} -I${MLIBXDIR} -lXext -lX11 -lm -lz
 
@@ -32,11 +32,11 @@ ${LIBFT}:
 	cd ${LIBFTDIR} && make bonus
 
 clean:
-	cd ${MLIBXDIR} && ./configure clean
 	cd ${LIBFTDIR} && make clean
 	rm -f ${OBJS}
 
 fclean: clean
+	cd ${MLIBXDIR} && ./configure clean
 	cd ${LIBFTDIR} && make fclean
 	rm -f ${NAME}
 

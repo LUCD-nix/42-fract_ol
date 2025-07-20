@@ -13,10 +13,18 @@
 #include "minilibx-linux/mlx.h"
 #include <stdlib.h>
 
+static inline void	swap_images(t_data *data)
+{
+	t_img	*temp;
+
+	temp = data->image_data;
+	data->image_data = data->other_image;
+	data->other_image = temp;
+}
+
 int	redraw_on_zoom(int button, int x, int y, void *ptr)
 {
 	t_data	*mlx;
-	t_img	*temp;
 	double	scale;
 
 	mlx = ptr;
@@ -25,8 +33,7 @@ int	redraw_on_zoom(int button, int x, int y, void *ptr)
 		scale *= 1.2;
 	else if (button == MOUSE_SCROLL_DOWN)
 		scale /= 1.2;
-	if (button == MOUSE_SCROLL_UP
-		|| button == MOUSE_SCROLL_DOWN)
+	if (scale != 1)
 	{
 		populate_coords(mlx->other_image,
 			get_x_coord(x, mlx->image_data),
@@ -35,9 +42,7 @@ int	redraw_on_zoom(int button, int x, int y, void *ptr)
 		apply_fractal(mlx->other_image, mlx->params);
 		mlx_put_image_to_window(mlx->mlx, mlx->window,
 			mlx->other_image->img, 0, 0);
-		temp = mlx->image_data;
-		mlx->image_data = mlx->other_image;
-		mlx->other_image = temp;
+		swap_images(mlx);
 	}
 	return (0);
 }
@@ -66,5 +71,32 @@ int	escape_to_exit(int keycode, void *param)
 	{
 		free_and_quit(param);
 	}
+	else if (keycode >= LEFT && keycode <= DOWN)
+		move_around_arrows(keycode, param);
 	return (0);
+}
+
+int	move_around_arrows(int keycode, void *param)
+{
+	t_data	*data;
+	double	x;
+	double	y;
+
+	data = param;
+	x = data->image_data->center_x;
+	y = data->image_data->center_y;
+	if (keycode == LEFT)
+		x -= 0.2 / data->image_data->scale;
+	if (keycode == RIGHT)
+		x += 0.2 / data->image_data->scale;
+	if (keycode == DOWN)
+		y += 0.2 / data->image_data->scale;
+	if (keycode == UP)
+		y -= 0.2 / data->image_data->scale;
+	populate_coords(data->other_image, x, y, data->image_data->scale);
+	apply_fractal(data->other_image, data->params);
+	mlx_put_image_to_window(data->mlx, data->window,
+		data->other_image->img, 0, 0);
+	swap_images(data);
+	return (1);
 }
